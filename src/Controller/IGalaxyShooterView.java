@@ -1,6 +1,6 @@
-package View;
+package Controller;
 
-public interface IView {
+public interface IGalaxyShooterView {
 
     public void drawGame();
 

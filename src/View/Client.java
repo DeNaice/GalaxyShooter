@@ -1,9 +1,14 @@
 package View;
 
+import Controller.GalaxyShooterController;
+import Controller.IGalaxyShooterController;
+import Controller.IGalaxyShooterView;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Client extends PApplet implements IView {
+public class Client extends PApplet implements IGalaxyShooterView {
+
+    private IGalaxyShooterController controller;
 
     PImage player;
     PImage enemy;
@@ -25,8 +30,8 @@ public class Client extends PApplet implements IView {
     }
 
     public void setup(){
-        // Controller instanziieren
-
+        this.controller = new GalaxyShooterController(this, width, height);
+        // titleScreen = loadImage("TitleScreen.png");
     }
 
 
