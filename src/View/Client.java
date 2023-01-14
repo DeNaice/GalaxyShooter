@@ -3,10 +3,13 @@ package View;
 import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
 import Controller.IGalaxyShooterView;
+import Model.Enemy;
 import Model.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -15,12 +18,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
     public ServerSocket server = null;
     private IGalaxyShooterController controller;
 
-    Player player;
-    PImage playerImage;
-
-    PImage background;
-    PImage titleScreen;
-    PImage EndScreen;
+    private PImage playerImage;
+    private PImage[] enemyImage;
+    private PImage background;
+    private PImage titleScreen;
+    private PImage EndScreen;
 
 
     public static void main(String args[]) {
@@ -28,7 +30,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     }
 
     public Client() {
-        setSize(400, 800);
+        setSize(720, 720);
     }
 
     public void settings(){
@@ -44,48 +46,47 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
 
     @Override
-    public void drawGame() {
+    public void drawGame(Player player, Enemy[] enemies) {
+        for (int i=0; i<enemies.length; i++){
+            drawEnemy(enemies[i], i);
+        }
         background(255);
-       player =  new Player (10, 10, loadImage("files/Player.png"));
+        noStroke();
+        fill(color(255, 100, 0));
+        image(playerImage, player.x, player.y, player.size, player.size);
+
+
 
 
     }
 
-    public void draw(){
-        if (this.player.life >= 0){
-            controller.nextFrame();
+    public void draw(){controller.nextFrame();}
 
+    public void register(Player player, Enemy[] enemies){
 
+        playerImage = loadImage(player.picture);
+        enemyImage = new PImage[enemies.length];
+        for (int i = 0; i< enemies.length; i++){
+            enemyImage[i] = loadImage(enemies[i].picture);
+        }
 
+    }
+
+    private void drawEnemy(Enemy enemy, int i){
+
+        if (enemy.isAlive()){
+            image(enemyImage[i], enemy.x, enemy.y, enemy.size, enemy.size);
 
         }
     }
+
     @Override
     public void drawTitleScreen() {
 
-    }
-
-    public void keyListener(){
-
-        if (key == CODED){
-            if(keyCode == UP){
-            System.out.println("Up");
-            }
-            if (keyCode == DOWN){
-                System.out.println("Down");
-            }
-            if (keyCode == LEFT){
-                System.out.println("Left");
-            }
-            if (keyCode == RIGHT){
-                System.out.println("Right");
-            }
-            if (keyCode == 49){
-                System.out.println("Spacebar");
-            }
-        }
 
     }
+
+
 
     @Override
     public void drawScore() {
@@ -99,4 +100,23 @@ public class Client extends PApplet implements IGalaxyShooterView {
     public void drawEndScreen() {
 
     }
+
+    public void keyPressed() {
+
+        if (CODED == 65535) {
+            switch (keyCode) {
+                case KeyEvent.VK_A:
+                    controller.userInput("A");
+                    break;
+                case KeyEvent.VK_D:
+                    controller.userInput("D");
+                    break;
+
+                case KeyEvent.VK_SPACE:
+                    controller.userInput("Space");
+            }
+        }
+    }
+
 }
+
