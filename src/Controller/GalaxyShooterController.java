@@ -9,7 +9,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class GalaxyShooterController implements IGalaxyShooterController {
-    int width, height;
+
 
     private GalaxyShooter model;
     private IGalaxyShooterView view;
@@ -24,7 +24,8 @@ public class GalaxyShooterController implements IGalaxyShooterController {
         this.state = GameState.GAME;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
-        this.view.register(this.model.getPlayer(), this.model.getEnemies());
+        this.view.register(model.getPlayer(), model.getEnemies());
+        System.out.println("Registrieren funktioniert");
 
 
     }

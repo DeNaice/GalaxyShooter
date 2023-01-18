@@ -1,12 +1,14 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class GalaxyShooter {
 
   private Player player;
 
-    private Enemy[] enemies;
+    private ArrayList <Enemy> enemies = new ArrayList<Enemy>();
 
-    Projectile[] projectiles;
+    private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     int width, height;
     int velocity = 2;
@@ -17,15 +19,10 @@ public class GalaxyShooter {
         this.width = width;
         this.height = height;
 
-        enemies = new Enemy[]{
-
-          new Enemy(500, 500,1,"files/Enemy.png")
-
-
-        };
-
         player = new Player(width / 2, height/2, "files/Player.png");
 
+
+        enemies.add(new Enemy(500, 500,1,"files/Enemy.png"));
 
     }
 
@@ -49,14 +46,14 @@ public class GalaxyShooter {
 
     public Player getPlayer() {return player;}
 
-    public Enemy[] getEnemies(){return enemies;}
+    public ArrayList<Enemy> getEnemies(){return enemies;}
 
     public void playerShoot(){
 
         int x = player.x;
         int y = player.y;
 
-        projectiles = new Projectile()
+       // TODO ArrayList projectiles = new Projectile()
 
     }
 

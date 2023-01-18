@@ -12,12 +12,12 @@ import processing.core.PImage;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.*;
 
 public class Client extends PApplet implements IGalaxyShooterView {
 
-    public ServerSocket server = null;
     private IGalaxyShooterController controller;
-
     private PImage playerImage;
     private PImage[] enemyImage;
     private PImage background;
@@ -46,9 +46,9 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
 
     @Override
-    public void drawGame(Player player, Enemy[] enemies) {
-        for (int i=0; i<enemies.length; i++){
-            drawEnemy(enemies[i], i);
+    public void drawGame(Player player, ArrayList<Enemy> enemies) {
+        for (int i=1; i<enemies.size(); i++){
+            drawEnemy(enemies.get(i), i);
         }
         background(255);
         noStroke();
@@ -60,14 +60,16 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
+
+
     public void draw(){controller.nextFrame();}
 
-    public void register(Player player, Enemy[] enemies){
+    public void register(Player player, ArrayList<Enemy> enemies){
 
         playerImage = loadImage(player.picture);
-        enemyImage = new PImage[enemies.length];
-        for (int i = 0; i< enemies.length; i++){
-            enemyImage[i] = loadImage(enemies[i].picture);
+        enemyImage = new PImage[enemies.size()];
+        for (int i = 1; i< enemies.size(); i++){
+            enemyImage[i] = loadImage(enemies.get(i).picture);
         }
 
     }
