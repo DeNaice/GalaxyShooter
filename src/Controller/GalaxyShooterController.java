@@ -24,9 +24,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
         this.state = GameState.GAME;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
-        this.view.register(model.getPlayer(), model.getEnemies());
-        System.out.println("Registrieren funktioniert");
-
+        this.view.registerPlayer(model.getPlayer());
 
     }
 
@@ -38,9 +36,13 @@ public class GalaxyShooterController implements IGalaxyShooterController {
                 view.drawTitleScreen();
             }
             case GAME -> {
+
                 for (var e : model.getEnemies()) {
-                    model.moveEnemy(e);
+
+                    view.registerEnemy(e);
+
                 }
+
                 view.drawGame(model.getPlayer(), model.getEnemies());
             }
         }

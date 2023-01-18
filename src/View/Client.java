@@ -18,8 +18,11 @@ import java.util.*;
 public class Client extends PApplet implements IGalaxyShooterView {
 
     private IGalaxyShooterController controller;
+
+    private final int WIDTH = 720;
+    private final int HEIGHT = 720;
     private PImage playerImage;
-    private PImage[] enemyImage;
+    private PImage enemyImage;
     private PImage background;
     private PImage titleScreen;
     private PImage EndScreen;
@@ -30,7 +33,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     }
 
     public Client() {
-        setSize(720, 720);
+        setSize(WIDTH, HEIGHT);
     }
 
     public void settings(){
@@ -47,16 +50,18 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     @Override
     public void drawGame(Player player, ArrayList<Enemy> enemies) {
-        for (int i=1; i<enemies.size(); i++){
-            drawEnemy(enemies.get(i), i);
-        }
+
+
         background(255);
         noStroke();
         fill(color(255, 100, 0));
         image(playerImage, player.x, player.y, player.size, player.size);
 
+        for (var e: enemies){
 
+            image(enemyImage, e.x,e.y,e.size, e.size);
 
+        }
 
     }
 
@@ -64,22 +69,25 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     public void draw(){controller.nextFrame();}
 
-    public void register(Player player, ArrayList<Enemy> enemies){
+    public void registerPlayer(Player player){
 
         playerImage = loadImage(player.picture);
-        enemyImage = new PImage[enemies.size()];
-        for (int i = 1; i< enemies.size(); i++){
-            enemyImage[i] = loadImage(enemies.get(i).picture);
-        }
+
+    }
+    public void registerEnemy(Enemy enemy){
+
+        enemyImage = loadImage(enemy.picture);
+
 
     }
 
-    private void drawEnemy(Enemy enemy, int i){
+    public void drawEnemy(Enemy enemy){
 
-        if (enemy.isAlive()){
-            image(enemyImage[i], enemy.x, enemy.y, enemy.size, enemy.size);
+        //if (enemy.isAlive()){
+            image(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
+        System.out.println("");
 
-        }
+        //}
     }
 
     @Override

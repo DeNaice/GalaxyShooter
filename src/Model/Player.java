@@ -4,6 +4,7 @@ import processing.core.PImage;
 
 public class Player {
 
+
     public int life;
     public int x;
     public int y;

@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class GalaxyShooter {
 
   private Player player;
+  private Enemy enemy;
 
-    private ArrayList <Enemy> enemies = new ArrayList<Enemy>();
+    private ArrayList <Enemy> enemies = new ArrayList<>();
 
-    private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
 
     int width, height;
     int velocity = 2;
@@ -19,7 +20,7 @@ public class GalaxyShooter {
         this.width = width;
         this.height = height;
 
-        player = new Player(width / 2, height/2, "files/Player.png");
+        player = new Player(width / 2, 630, "files/Player.png");
 
 
         enemies.add(new Enemy(500, 500,1,"files/Enemy.png"));

@@ -11,13 +11,14 @@ public class Enemy {
     public int size;
 
 
+
     public Enemy(int x, int y,int life, String picture){
 
         this.x = x;
         this.y = y;
         this.picture = picture;
         this.life = life;
-        this.size = 100;
+        this.size = 50;
 
 
 
@@ -33,6 +34,8 @@ public class Enemy {
     public boolean isAlive(){
         return life > 0;
     }
+
+
 
 
 }
