@@ -42,8 +42,14 @@ public class GalaxyShooterController implements IGalaxyShooterController {
                     view.registerEnemy(e);
 
                 }
+                for (var e: model.getProjectiles()){
 
-                view.drawGame(model.getPlayer(), model.getEnemies());
+                    view.registerProjectile(e);
+                    model.moveProjectile(e);
+                }
+
+                view.drawGame(model.getPlayer(), model.getEnemies(),model.getProjectiles());
+
             }
         }
 
@@ -64,7 +70,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
                 System.out.println("Player nach rechts");
             }
             case "Space" ->{model.playerShoot();
-                System.out.println("bang bang");
+
 
             }
 

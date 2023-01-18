@@ -5,6 +5,7 @@ import Controller.IGalaxyShooterController;
 import Controller.IGalaxyShooterView;
 import Model.Enemy;
 import Model.Player;
+import Model.Projectile;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -23,6 +24,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     private final int HEIGHT = 720;
     private PImage playerImage;
     private PImage enemyImage;
+    private PImage projectileImage;
     private PImage background;
     private PImage titleScreen;
     private PImage EndScreen;
@@ -49,7 +51,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
 
     @Override
-    public void drawGame(Player player, ArrayList<Enemy> enemies) {
+    public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles) {
 
 
         background(255);
@@ -61,6 +63,10 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
             image(enemyImage, e.x,e.y,e.size, e.size);
 
+        }
+        for (var e: projectiles){
+
+            image(projectileImage, e.x, e.y, e.size, e.size);
         }
 
     }
@@ -78,6 +84,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
         enemyImage = loadImage(enemy.picture);
 
+    }
+
+    public void registerProjectile(Projectile projectile){
+
+        projectileImage = loadImage(projectile.picture);
 
     }
 

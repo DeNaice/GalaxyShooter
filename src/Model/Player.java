@@ -20,7 +20,7 @@ public class Player {
         this.y = y;
         this.life = 3;
         this.picture = picture;
-        this.size = 80;
+        this.size = 100;
 
 
     }

@@ -25,6 +25,7 @@ public class GalaxyShooter {
 
         enemies.add(new Enemy(500, 500,1,"files/Enemy.png"));
 
+
     }
 
     public void movePlayer(int x, int y) {
@@ -49,12 +50,16 @@ public class GalaxyShooter {
 
     public ArrayList<Enemy> getEnemies(){return enemies;}
 
+    public ArrayList<Projectile> getProjectiles(){return projectiles;}
+
     public void playerShoot(){
 
-        int x = player.x;
-        int y = player.y;
+        projectiles.add(new Projectile(player.x, player.y, "files/Projectile.png"));
 
-       // TODO ArrayList projectiles = new Projectile()
+    }
+    public void moveProjectile(Projectile projectile){
+
+        projectile.move();
 
     }
 

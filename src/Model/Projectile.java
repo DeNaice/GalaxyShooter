@@ -3,24 +3,26 @@ package Model;
 public class Projectile {
 
     public int x;
-
     public int y;
+
+    public String picture;
 
     public int size;
 
     public int speed = 1;
 
-    public Projectile(int x, int y, int size, int speed){
+    public Projectile(int x, int y, String picture){
 
         this.x = x;
         this.y = y;
-        this.size = size;
-        this.speed = speed;
+        this.picture = picture;
+        this.size = 20;
+
     }
 
-    void move(int x, int y){
+    void move(){
         this.x = x;
-        this.y = y;
+        this.y = y-2;
     }
 
 }
