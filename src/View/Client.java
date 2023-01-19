@@ -39,16 +39,14 @@ public class Client extends PApplet implements IGalaxyShooterView {
         setSize(WIDTH, HEIGHT);
     }
 
-    public void settings(){
+    public void settings() {
     }
 
-    public void setup(){
+    public void setup() {
         this.controller = new GalaxyShooterController(this, width, height);
-       // titleScreen = loadImage("");
+        // titleScreen = loadImage("");
 
     }
-
-
 
 
     @Override
@@ -59,38 +57,43 @@ public class Client extends PApplet implements IGalaxyShooterView {
         noStroke();
         fill(color(255, 100, 0));
         image(playerImage, player.x - 50, player.y, player.size, player.size);
-        if (mouseButton == LEFT) {
-            System.out.println("x= "+ mouseX +"y= "+  mouseY);
+
+        // TODO When NULL
+        if (enemies != null) {
+            for (var e : enemies) {
+                image(enemyImage, e.x - 25, e.y, e.size, e.size);
+
+            }
         }
 
-        for (var e: enemies){
+        // TODO When NULL ?
+        if (projectiles != null) {
+            for (var e : projectiles) {
 
-            image(enemyImage, e.x ,e.y ,e.size, e.size);
 
+                image(projectileImage, e.x - 10, e.y, e.size, e.size);
+            }
         }
-        for (var e: projectiles){
-
-            image(projectileImage, e.x- 11, e.y -10, e.size, e.size);
-        }
-
     }
 
 
+    public void draw() {
+        controller.nextFrame();
+    }
 
-    public void draw(){controller.nextFrame();}
-
-    public void registerPlayer(Player player){
+    public void registerPlayer(Player player) {
 
         playerImage = loadImage(player.picture);
 
     }
-    public void registerEnemy(Enemy enemy){
+
+    public void registerEnemy(Enemy enemy) {
 
         enemyImage = loadImage(enemy.picture);
 
     }
 
-    public void registerProjectile(Projectile projectile){
+    public void registerProjectile(Projectile projectile) {
 
         projectileImage = loadImage(projectile.picture);
 
@@ -104,19 +107,17 @@ public class Client extends PApplet implements IGalaxyShooterView {
     }
 
 
-
     @Override
     public void drawScore() {
 
     }
 
 
-
-
     @Override
     public void drawEndScreen() {
 
     }
+
     public void keyPressed() {
 
         if (CODED == 65535) {
@@ -132,7 +133,6 @@ public class Client extends PApplet implements IGalaxyShooterView {
                     GalaxyShooter.playerShoot();
                     break;
             }
-
 
 
         }

@@ -14,7 +14,7 @@ public class Player {
     public int size;
 
 
-    public Player(int x, int y, String picture){
+    public Player(int x, int y, String picture) {
 
         this.x = x;
         this.y = y;
@@ -26,15 +26,19 @@ public class Player {
     }
 
     void move(int x, int y) {
-        if (life >0) {
+        if (life > 0) {
             this.x = x;
             this.y = y;
         }
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return life > 0;
     }
 
 
+    public void getDamage() {
+
+        this.life = life - 1;
+    }
 }

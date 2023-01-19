@@ -11,8 +11,7 @@ public class Enemy {
     public int size;
 
 
-
-    public Enemy(int x, int y, String picture){
+    public Enemy(int x, int y, String picture) {
 
         this.x = x;
         this.y = y;
@@ -21,21 +20,18 @@ public class Enemy {
         this.size = 50;
 
 
-
     }
 
-    void move(){
+    void move() {
 
         this.x = x;
-        this.y = y;
+        this.y = y +1;
 
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return life > 0;
     }
-
-
 
 
 }

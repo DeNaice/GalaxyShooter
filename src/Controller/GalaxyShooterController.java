@@ -39,43 +39,35 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
             }
             case GAME -> {
 
+                // Jeder Enemy Iteriert zum Registrieren
                 for (var enemy : model.getEnemies()) {
                     view.registerEnemy(enemy);
+                    model.moveEnemy(enemy);
+                    model.checkPlayerDamage(model.getPlayer(), enemy);
 
 
                 }
-                // Wenn Projektil gelöscht wird unterbunden
-                for (var projectile: model.getProjectiles()){
+
+                for (var projectile : model.getProjectiles()) {
 
                     view.registerProjectile(projectile);
                     model.moveProjectile(projectile);
-                    for (var enemie: model.getEnemies()){
-                        model.checkDestroy(projectile.x, projectile.y, enemie.x, enemie.y);
-                    }
 
-
-
-                    if (projectile.y <= 0 || projectile.y>= 720)  {
-
-                        model.deleteProjectile(projectile);
-                        System.out.println(projectile+ " gelöscht");
-                        break;
-
+                    for (var enemie : model.getEnemies()) {
+                        model.checkDestroy(projectile, enemie);
 
                     }
+                    model.projectileBorder(projectile);
 
                 }
 
-                view.drawGame(model.getPlayer(), model.getEnemies(),model.getProjectiles());
+                view.drawGame(model.getPlayer(), model.getEnemies(), model.getProjectiles());
 
 
             }
         }
 
     }
-
-
-
 
 }
 

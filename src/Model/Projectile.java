@@ -11,7 +11,7 @@ public class Projectile {
 
     public int speed = 1;
 
-    public Projectile(int x, int y, String picture){
+    public Projectile(int x, int y, String picture) {
 
         this.x = x;
         this.y = y;
@@ -20,9 +20,9 @@ public class Projectile {
 
     }
 
-    void move(){
+    void move() {
         this.x = x;
-        this.y = y-2;
+        this.y = y - 2;
     }
 
 }
