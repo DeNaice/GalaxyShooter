@@ -4,6 +4,7 @@ public interface IGalaxyShooterController {
 
     void nextFrame();
 
-    void userInput(String direction);
+
+
 
 }

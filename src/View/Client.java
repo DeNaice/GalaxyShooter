@@ -4,6 +4,7 @@ import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
 import Controller.IGalaxyShooterView;
 import Model.Enemy;
+import Model.GalaxyShooter;
 import Model.Player;
 import Model.Projectile;
 import processing.core.PApplet;
@@ -57,16 +58,19 @@ public class Client extends PApplet implements IGalaxyShooterView {
         background(255);
         noStroke();
         fill(color(255, 100, 0));
-        image(playerImage, player.x, player.y, player.size, player.size);
+        image(playerImage, player.x - 50, player.y, player.size, player.size);
+        if (mouseButton == LEFT) {
+            System.out.println("x= "+ mouseX +"y= "+  mouseY);
+        }
 
         for (var e: enemies){
 
-            image(enemyImage, e.x,e.y,e.size, e.size);
+            image(enemyImage, e.x ,e.y ,e.size, e.size);
 
         }
         for (var e: projectiles){
 
-            image(projectileImage, e.x, e.y, e.size, e.size);
+            image(projectileImage, e.x- 11, e.y -10, e.size, e.size);
         }
 
     }
@@ -92,14 +96,6 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
-    public void drawEnemy(Enemy enemy){
-
-        //if (enemy.isAlive()){
-            image(enemyImage, enemy.x, enemy.y, enemy.size, enemy.size);
-        System.out.println("");
-
-        //}
-    }
 
     @Override
     public void drawTitleScreen() {
@@ -121,23 +117,27 @@ public class Client extends PApplet implements IGalaxyShooterView {
     public void drawEndScreen() {
 
     }
-
     public void keyPressed() {
 
         if (CODED == 65535) {
             switch (keyCode) {
+
                 case KeyEvent.VK_A:
-                    controller.userInput("A");
+                    GalaxyShooter.movePlayer(-10, 0);
                     break;
                 case KeyEvent.VK_D:
-                    controller.userInput("D");
+                    GalaxyShooter.movePlayer(10, 0);
                     break;
-
                 case KeyEvent.VK_SPACE:
-                    controller.userInput("Space");
+                    GalaxyShooter.playerShoot();
+                    break;
             }
+
+
+
         }
     }
+
 
 }
 

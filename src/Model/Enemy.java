@@ -12,12 +12,12 @@ public class Enemy {
 
 
 
-    public Enemy(int x, int y,int life, String picture){
+    public Enemy(int x, int y, String picture){
 
         this.x = x;
         this.y = y;
         this.picture = picture;
-        this.life = life;
+        this.life = 1;
         this.size = 50;
 
 

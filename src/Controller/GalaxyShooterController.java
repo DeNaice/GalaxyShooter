@@ -8,7 +8,9 @@ import Controller.IGalaxyShooterView;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class GalaxyShooterController implements IGalaxyShooterController {
+import java.awt.event.KeyEvent;
+
+public class GalaxyShooterController extends PApplet implements IGalaxyShooterController {
 
 
     private GalaxyShooter model;
@@ -37,43 +39,46 @@ public class GalaxyShooterController implements IGalaxyShooterController {
             }
             case GAME -> {
 
-                for (var e : model.getEnemies()) {
+                for (var enemy : model.getEnemies()) {
+                    view.registerEnemy(enemy);
 
-                    view.registerEnemy(e);
 
                 }
-                for (var e: model.getProjectiles()){
+                // Wenn Projektil gelöscht wird unterbunden
+                for (var projectile: model.getProjectiles()){
 
-                    view.registerProjectile(e);
-                    model.moveProjectile(e);
+                    view.registerProjectile(projectile);
+                    model.moveProjectile(projectile);
+                    for (var enemie: model.getEnemies()){
+                        model.checkDestroy(projectile.x, projectile.y, enemie.x, enemie.y);
+                    }
+
+
+
+                    if (projectile.y <= 0 || projectile.y>= 720)  {
+
+                        model.deleteProjectile(projectile);
+                        System.out.println(projectile+ " gelöscht");
+                        break;
+
+
+                    }
+
                 }
 
                 view.drawGame(model.getPlayer(), model.getEnemies(),model.getProjectiles());
 
+
             }
         }
 
     }
 
-    @Override
-    public void userInput(String direction) {
-
-        switch (direction) {
-
-            case "A" -> {
-                model.movePlayer(-2, 0);
-                System.out.println("Player nach links");
-            }
-
-            case "D" -> {
-                model.movePlayer(2, 0);
-                System.out.println("Player nach rechts");
-            }
-            case "Space" ->{model.playerShoot();
 
 
-            }
 
-        }
-    }
 }
+
+
+
+
