@@ -1,6 +1,5 @@
 package Model;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -26,7 +25,7 @@ public class GalaxyShooter extends PApplet {
         player = new Player(width / 2, 630, "files/Player.png");
 
 
-        enemies.add(new Enemy(100, 100, "files/Enemy.png"));
+        enemies.add(new Enemy(100, 100));
 
 
     }
@@ -43,6 +42,12 @@ public class GalaxyShooter extends PApplet {
             player.x = 5;
         }
 
+
+    }
+
+    public void movePlayerLeft() {
+
+        player.x = player.x - 10;
 
     }
 
@@ -81,14 +86,15 @@ public class GalaxyShooter extends PApplet {
 
         projectiles.remove(projectile);
     }
-    public void deleteEnemy(Enemy enemy){
+
+    public void deleteEnemy(Enemy enemy) {
 
         enemies.remove(enemy);
     }
 
-    public void checkDestroy(Projectile projectile,Enemy enemy) {
+    public void checkDestroy(Projectile projectile, Enemy enemy) {
 
-        if (dist(projectile.x, projectile.y, enemy.x, enemy.y) <25) {
+        if (dist(projectile.x, projectile.y, enemy.x, enemy.y) < 25) {
 
             deleteProjectile(projectile);
             deleteEnemy(enemy);
@@ -102,13 +108,14 @@ public class GalaxyShooter extends PApplet {
 
     public void checkPlayerDamage(Player player, Enemy enemy) {
 
-        if (dist(player.x, player.y, enemy.x, enemy.y) < 40){
+        if (dist(player.x, player.y, enemy.x, enemy.y) < 40) {
 
             player.getDamage();
             deleteEnemy(enemy);
             System.out.println(player.life);
 
         }
+
 
     }
 
@@ -120,8 +127,26 @@ public class GalaxyShooter extends PApplet {
             System.out.println(projectile + " gelöscht");
 
 
-
         }
     }
+
+    public boolean isEnemyFilled() {
+
+        if (enemies.isEmpty()) {
+
+            return false;
+        } else return true;
+    }
+
+    public boolean isProjectileFilled() {
+
+        if (projectiles.isEmpty()) {
+
+            return false;
+        } else return true;
+    }
+
+
+
 }
 

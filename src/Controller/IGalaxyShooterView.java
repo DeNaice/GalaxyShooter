@@ -10,15 +10,13 @@ public interface IGalaxyShooterView {
 
     public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles);
 
-    void registerPlayer(Player player);
 
-    void registerEnemy(Enemy enemy);
 
-    void registerProjectile(Projectile projectile);
 
-    public void drawScore();
 
     public void drawTitleScreen();
+
+    void drawScore();
 
     public void drawEndScreen();
 

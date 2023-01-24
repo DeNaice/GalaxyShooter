@@ -1,14 +1,7 @@
 package Controller;
 
 import Model.GalaxyShooter;
-import Model.Player;
-import Model.Projectile;
-import Model.Enemy;
-import Controller.IGalaxyShooterView;
 import processing.core.PApplet;
-import processing.core.PImage;
-
-import java.awt.event.KeyEvent;
 
 public class GalaxyShooterController extends PApplet implements IGalaxyShooterController {
 
@@ -26,7 +19,7 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         this.state = GameState.GAME;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
-        this.view.registerPlayer(model.getPlayer());
+       
 
     }
 
@@ -36,38 +29,46 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         switch (state) {
             case TITLE_SCREEN -> {
                 view.drawTitleScreen();
+
             }
             case GAME -> {
 
                 // Jeder Enemy Iteriert zum Registrieren
+                if (model.isEnemyFilled()){
                 for (var enemy : model.getEnemies()) {
-                    view.registerEnemy(enemy);
                     model.moveEnemy(enemy);
                     model.checkPlayerDamage(model.getPlayer(), enemy);
+                }
+                }
+                if (model.isProjectileFilled()){
+                for (var projectile : model.getProjectiles()) {
+
+                    model.moveProjectile(projectile);
+
+                    if (model.isEnemyFilled()) {
+                        model.projectileBorder(projectile);
+
+                        for (var enemie : model.getEnemies()) {
+                            model.checkDestroy(projectile, enemie);
+
+                        }
+
+                    }
 
 
                 }
-
-                for (var projectile : model.getProjectiles()) {
-
-                    view.registerProjectile(projectile);
-                    model.moveProjectile(projectile);
-
-                    for (var enemie : model.getEnemies()) {
-                        model.checkDestroy(projectile, enemie);
-
-                    }
-                    model.projectileBorder(projectile);
-
                 }
 
                 view.drawGame(model.getPlayer(), model.getEnemies(), model.getProjectiles());
 
 
             }
+            case END_SCREEN -> view.drawEndScreen();
         }
 
     }
+
+
 
 }
 

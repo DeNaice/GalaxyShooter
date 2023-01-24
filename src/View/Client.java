@@ -12,10 +12,7 @@ import processing.core.PImage;
 
 
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.*;
 
 public class Client extends PApplet implements IGalaxyShooterView {
 
@@ -28,7 +25,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     private PImage projectileImage;
     private PImage background;
     private PImage titleScreen;
-    private PImage EndScreen;
+    private PImage endScreen;
 
 
     public static void main(String args[]) {
@@ -40,10 +37,21 @@ public class Client extends PApplet implements IGalaxyShooterView {
     }
 
     public void settings() {
+
+        pixelDensity(2);
     }
 
     public void setup() {
         this.controller = new GalaxyShooterController(this, width, height);
+
+
+
+        playerImage = loadImage("files/Player.png");
+        enemyImage = loadImage("files/Enemy.png");
+        projectileImage = loadImage("files/Projectile.png");
+
+
+
         // titleScreen = loadImage("");
 
     }
@@ -52,14 +60,13 @@ public class Client extends PApplet implements IGalaxyShooterView {
     @Override
     public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles) {
 
-
-        background(255);
         noStroke();
-        fill(color(255, 100, 0));
+        background(150, 145, 135);
         image(playerImage, player.x - 50, player.y, player.size, player.size);
+        drawScore();
 
         // TODO When NULL
-        if (enemies != null) {
+        if (!enemies.isEmpty()) {
             for (var e : enemies) {
                 image(enemyImage, e.x - 25, e.y, e.size, e.size);
 
@@ -67,7 +74,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
         }
 
         // TODO When NULL ?
-        if (projectiles != null) {
+        if (!projectiles.isEmpty()) {
             for (var e : projectiles) {
 
 
@@ -81,46 +88,44 @@ public class Client extends PApplet implements IGalaxyShooterView {
         controller.nextFrame();
     }
 
-    public void registerPlayer(Player player) {
 
-        playerImage = loadImage(player.picture);
 
-    }
 
-    public void registerEnemy(Enemy enemy) {
-
-        enemyImage = loadImage(enemy.picture);
-
-    }
-
-    public void registerProjectile(Projectile projectile) {
-
-        projectileImage = loadImage(projectile.picture);
-
-    }
 
 
     @Override
     public void drawTitleScreen() {
-
+        titleScreen = loadImage("files/TitleScreen.png");
+        image(titleScreen, 0, 0,width, height);
+      //  GalaxyShooter.checkStartGame();
 
     }
 
 
     @Override
     public void drawScore() {
+        int score = 0;
+        fill(255,255,255);
+        textSize(20);
+        text("Score: " + score,25, 30);
 
     }
 
 
     @Override
     public void drawEndScreen() {
+        endScreen = loadImage("files/EndScreen.png");
+        image(endScreen, 0, 0,width, height);
 
     }
 
     public void keyPressed() {
 
+
         if (CODED == 65535) {
+
+
+
             switch (keyCode) {
 
                 case KeyEvent.VK_A:

@@ -11,11 +11,11 @@ public class Enemy {
     public int size;
 
 
-    public Enemy(int x, int y, String picture) {
+    public Enemy(int x, int y) {
 
         this.x = x;
         this.y = y;
-        this.picture = picture;
+        this.picture = "files/Enemy.png";
         this.life = 1;
         this.size = 50;
 
