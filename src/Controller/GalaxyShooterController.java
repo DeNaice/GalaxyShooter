@@ -16,10 +16,10 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
 
         //TODO noch in Titlescreen umwandeln
 
-        this.state = GameState.GAME;
+        this.state = GameState.GAME ;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
-       
+
 
     }
 
@@ -29,37 +29,22 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         switch (state) {
             case TITLE_SCREEN -> {
                 view.drawTitleScreen();
-
+                if (keyPressed){state = GameState.GAME;}
             }
             case GAME -> {
 
                 // Jeder Enemy Iteriert zum Registrieren
-                if (model.isEnemyFilled()){
-                for (var enemy : model.getEnemies()) {
-                    model.moveEnemy(enemy);
-                    model.checkPlayerDamage(model.getPlayer(), enemy);
-                }
-                }
-                if (model.isProjectileFilled()){
-                for (var projectile : model.getProjectiles()) {
 
-                    model.moveProjectile(projectile);
-
-                    if (model.isEnemyFilled()) {
-                        model.projectileBorder(projectile);
-
-                        for (var enemie : model.getEnemies()) {
-                            model.checkDestroy(projectile, enemie);
-
-                        }
-
-                    }
+                model.moveEnemy();
+                model.moveProjectile();
+                model.damagePlayer();
+                model.projectileBorder();
+                model.checkDestroy();
+                if (model.isPlayerDead()){this.state = GameState.END_SCREEN;}
 
 
-                }
-                }
 
-                view.drawGame(model.getPlayer(), model.getEnemies(), model.getProjectiles());
+                view.drawGame(model.getPlayer(), model.getEnemies(), model.getProjectiles(), model.getScore());
 
 
             }
@@ -67,7 +52,6 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         }
 
     }
-
 
 
 }

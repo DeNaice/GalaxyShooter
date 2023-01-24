@@ -1,4 +1,12 @@
 package Model;
 
-public class EnemySpawner {
+public class EnemySpawner extends Thread{
+
+    EnemySpawner(){
+
+
+
+    }
+
+
 }

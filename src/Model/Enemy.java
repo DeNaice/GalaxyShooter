@@ -22,12 +22,6 @@ public class Enemy {
 
     }
 
-    void move() {
-
-        this.x = x;
-        this.y = y +1;
-
-    }
 
     public boolean isAlive() {
         return life > 0;

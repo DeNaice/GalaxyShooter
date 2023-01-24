@@ -1,5 +1,7 @@
 package View;
 
+import processing.core.PApplet;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,19 +10,31 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class Server {
+public class Server extends PApplet {
 
     public Socket socket = null;
     public ServerSocket server = null;
     public BufferedReader reader = null;
 
     public PrintWriter writer = null;
-    boolean isServer;
 
-    public Server() throws IOException {
 
-        startServer();
+    public static void main(String args[]) {
+        PApplet.main(Server.class);
+    }
 
+    public Server() {
+
+
+    }
+
+    public void setup() {
+
+        try {
+            startServer();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
 

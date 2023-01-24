@@ -4,14 +4,21 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
+
+
+
 public class GalaxyShooter extends PApplet {
 
     private static Player player;
-    private Enemy enemy;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Enemy> newEnemies = new ArrayList<>();
 
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
+    private static ArrayList<Projectile> newProjectiles = new ArrayList<>();
+
+    private int score = 0;
+
 
     int width, height;
     int velocity = 2;
@@ -30,11 +37,18 @@ public class GalaxyShooter extends PApplet {
 
     }
 
-    public static void movePlayer(int x, int y) {
 
+    public static void movePlayerLeft() {
 
-        player.x = player.x + x;
-        player.y = player.y + y;
+        player.x = player.x - 10;
+
+    }
+
+    public static void movePlayerRight() {
+        player.x = player.x + 10;
+    }
+
+    public static void checkPlayerBorder() {
 
         if (player.x <= 10) {
             player.x = 715;
@@ -42,19 +56,16 @@ public class GalaxyShooter extends PApplet {
             player.x = 5;
         }
 
-
     }
 
-    public void movePlayerLeft() {
 
-        player.x = player.x - 10;
+    public void moveEnemy() {
 
-    }
+        for (Enemy enemy : enemies) {
 
-    public void moveEnemy(Enemy enemy) {
 
-        enemy.move();
-
+            enemy.y = enemy.y + 1;
+        }
     }
 
 
@@ -77,75 +88,118 @@ public class GalaxyShooter extends PApplet {
 
     }
 
-    public void moveProjectile(Projectile projectile) {
+    public void moveProjectile() {
 
-        projectile.move();
+        for (Projectile projectile : projectiles) {
+
+            projectile.y = projectile.y - 2;
+        }
+
     }
 
     public void deleteProjectile(Projectile projectile) {
 
-        projectiles.remove(projectile);
+        newProjectiles.add(projectile);
+
     }
 
     public void deleteEnemy(Enemy enemy) {
 
-        enemies.remove(enemy);
+        newEnemies.add(enemy);
     }
 
-    public void checkDestroy(Projectile projectile, Enemy enemy) {
+    public void checkDestroy() {
+        for (Enemy enemy : enemies) {
 
-        if (dist(projectile.x, projectile.y, enemy.x, enemy.y) < 25) {
+            for (Projectile projectile : projectiles) {
 
-            deleteProjectile(projectile);
-            deleteEnemy(enemy);
 
+                if (dist(projectile.x, projectile.y, enemy.x, enemy.y) < 15) {
+
+
+                    enemyHit(enemy, projectile);
+
+
+
+                }
+            }
+        }
+        refreshEnemyList();
+        refreshProjectileList();
+
+    }
+
+
+    public void damagePlayer() {
+
+        for (Enemy enemy : enemies) {
+
+
+            if (dist(player.x, player.y, enemy.x, enemy.y) < 40) {
+
+                player.getDamage();
+                deleteEnemy(enemy);
+                System.out.println(player.life);
+
+            }
+        }
+        refreshEnemyList();
+
+
+    }
+
+    public void projectileBorder() {
+
+        for (Projectile projectile : projectiles) {
+
+            if (projectile.y <= 0 || projectile.y >= 720) {
+
+                deleteProjectile(projectile);
+                System.out.println(projectile + " gelöscht");
+
+            }
 
         }
+        refreshProjectileList();
+    }
+
+    public void refreshEnemyList() {
+
+        enemies.removeAll(newEnemies);
+
+    }
+
+    public void refreshProjectileList() {
+
+        projectiles.removeAll(newProjectiles);
+    }
+
+    public void enemyHit(Enemy enemy, Projectile projectile) {
+
+        deleteEnemy(enemy);
+        deleteProjectile(projectile);
+        addScore();
+
+    }
+
+    public void addScore() {
+
+        score = score + 50;
 
 
     }
 
+    public int getScore() {
 
-    public void checkPlayerDamage(Player player, Enemy enemy) {
-
-        if (dist(player.x, player.y, enemy.x, enemy.y) < 40) {
-
-            player.getDamage();
-            deleteEnemy(enemy);
-            System.out.println(player.life);
-
-        }
-
-
+        return score;
     }
 
-    public void projectileBorder(Projectile projectile) {
+    public boolean isPlayerDead() {
+        if (player.life == 0) {
 
-        if (projectile.y <= 0 || projectile.y >= 720) {
-
-            deleteProjectile(projectile);
-            System.out.println(projectile + " gelöscht");
-
-
-        }
+            return true;
+        } else return false;
     }
-
-    public boolean isEnemyFilled() {
-
-        if (enemies.isEmpty()) {
-
-            return false;
-        } else return true;
-    }
-
-    public boolean isProjectileFilled() {
-
-        if (projectiles.isEmpty()) {
-
-            return false;
-        } else return true;
-    }
-
 
 
 }

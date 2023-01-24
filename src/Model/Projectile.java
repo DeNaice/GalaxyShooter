@@ -20,9 +20,4 @@ public class Projectile {
 
     }
 
-    void move() {
-        this.x = x;
-        this.y = y - 2;
-    }
-
 }

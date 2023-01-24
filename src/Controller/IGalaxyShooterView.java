@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface IGalaxyShooterView {
 
-    public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles);
+    public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, int score);
 
 
 
@@ -16,7 +16,8 @@ public interface IGalaxyShooterView {
 
     public void drawTitleScreen();
 
-    void drawScore();
+    void drawScore(int score);
+
 
     public void drawEndScreen();
 

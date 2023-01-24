@@ -25,16 +25,6 @@ public class Player {
 
     }
 
-    void move(int x, int y) {
-        if (life > 0) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    public boolean isAlive() {
-        return life > 0;
-    }
 
 
     public void getDamage() {
