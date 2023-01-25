@@ -3,18 +3,13 @@ package View;
 import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
 import Controller.IGalaxyShooterView;
-import Model.Enemy;
-import Model.GalaxyShooter;
-import Model.Player;
-import Model.Projectile;
+import Model.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -24,7 +19,6 @@ public class Client extends PApplet implements IGalaxyShooterView {
     private IGalaxyShooterController controller;
     private Socket socket = null;
     private PrintWriter writer = null;
-    private BufferedReader reader = null;
 
     private final int WIDTH = 720;
     private final int HEIGHT = 720;
@@ -47,11 +41,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     public void settings() {
 
-        pixelDensity(2);
     }
 
     public void setup() {
         this.controller = new GalaxyShooterController(this, width, height);
+
 
 
         playerImage = loadImage("files/Player.png");
@@ -62,13 +56,12 @@ public class Client extends PApplet implements IGalaxyShooterView {
         playerLife = loadImage("files/Heart.png");
 
 
-        /*
         try{
             connectClient();
         } catch (IOException e){
             throw new RuntimeException(e);
         }
-        */
+
     }
 
 
@@ -90,7 +83,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
             image(projectileImage, e.x - 10, e.y, e.size, e.size);
         }
 
-       drawPlayerLife(player);
+        drawPlayerLife(player);
     }
 
 
@@ -144,6 +137,8 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
+
+
     public void connectClient() throws IOException {
 
         String ip = "localhost";
@@ -152,9 +147,12 @@ public class Client extends PApplet implements IGalaxyShooterView {
         writer = new PrintWriter(socket.getOutputStream(), true);
         writer.println("CONNECTED");
         System.out.println("CONNECTED");
-        reader = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
 
+    }
+
+    public void sendScore(int score){
+
+        writer.println(score);
 
     }
 
@@ -175,7 +173,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
                     break;
                 case KeyEvent.VK_SPACE:
                     GalaxyShooter.playerShoot();
-                        break;
+                    break;
 
             }
 

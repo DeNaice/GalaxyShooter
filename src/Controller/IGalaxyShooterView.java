@@ -22,4 +22,5 @@ public interface IGalaxyShooterView {
     public void drawEndScreen();
 
 
+    void sendScore(int score);
 }

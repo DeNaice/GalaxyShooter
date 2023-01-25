@@ -2,6 +2,9 @@ package Model;
 
 import java.util.ArrayList;
 
+import Controller.GalaxyShooterController;
+import Controller.IGalaxyShooterController;
+import Controller.IGalaxyShooterView;
 import processing.core.PApplet;
 
 
@@ -10,8 +13,10 @@ import processing.core.PApplet;
 public class GalaxyShooter extends PApplet {
 
     private static Player player;
+    IGalaxyShooterController controller;
 
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+
+    private static ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Enemy> newEnemies = new ArrayList<>();
 
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -29,10 +34,14 @@ public class GalaxyShooter extends PApplet {
         this.width = width;
         this.height = height;
 
+
         player = new Player(width / 2, 630, "files/Player.png");
+        new EnemySpawner("spawner", this).start();
 
 
-        enemies.add(new Enemy(100, 100));
+
+
+
 
 
     }
@@ -55,6 +64,16 @@ public class GalaxyShooter extends PApplet {
         } else if (player.x >= 720) {
             player.x = 5;
         }
+
+    }
+
+    public static void spawnEnemy() {
+
+        int randomX = (int)(Math.random() * 700);
+
+
+        enemies.add(new Enemy(100, 100));
+        System.out.println("Enemy wird gespawnt" + enemies);
 
     }
 
@@ -201,6 +220,27 @@ public class GalaxyShooter extends PApplet {
         } else return false;
     }
 
+    public void setDifficulty() {
 
+
+        if (score >= 500){
+
+            EnemySpawner spawner = new EnemySpawner("Spawner2",this);
+            spawner.run();
+
+
+        }
+
+    }
+
+
+
+
+    public int sendScore() {
+
+        return score;
+
+
+    }
 }
 

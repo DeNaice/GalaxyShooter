@@ -1,5 +1,8 @@
 package View;
 
+import Controller.GalaxyShooterController;
+import Controller.IGalaxyShooterController;
+import Controller.IGalaxyShooterView;
 import processing.core.PApplet;
 
 import java.io.BufferedReader;
@@ -10,7 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class Server extends PApplet {
+public class Server{
 
     public Socket socket = null;
     public ServerSocket server = null;
@@ -18,20 +21,36 @@ public class Server extends PApplet {
 
     public PrintWriter writer = null;
 
+    IGalaxyShooterController controller;
+
 
     public static void main(String args[]) {
-        PApplet.main(Server.class);
+
+        new Server().setup();
+        System.out.println("Server is running");
+
+
+
+
+
+
+
     }
 
     public Server() {
+
+
+
 
 
     }
 
     public void setup() {
 
+
         try {
             startServer();
+
         } catch (IOException e){
             throw new RuntimeException(e);
         }
@@ -51,9 +70,14 @@ public class Server extends PApplet {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             line = reader.readLine();
             System.out.println("RECEIVED" + line);
+
+
         }
-        writer = new PrintWriter(socket.getOutputStream(), true);
+
+
     }
+
+
 
 
 
