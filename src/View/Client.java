@@ -90,7 +90,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
             image(projectileImage, e.x - 10, e.y, e.size, e.size);
         }
 
-       drawPlayerLife(player);
+        drawPlayerLife(player);
     }
 
 
@@ -115,26 +115,23 @@ public class Client extends PApplet implements IGalaxyShooterView {
         text("Score: " + score, 25, 30);
 
     }
-    public void drawPlayerLife(Player player){
 
-        if (player.life == 3){
-            image(playerLife, 550, 10,40, 40);
+    public void drawPlayerLife(Player player) {
+
+        if (player.life == 3) {
+            image(playerLife, 550, 10, 40, 40);
             image(playerLife, 600, 10, 40, 40);
             image(playerLife, 650, 10, 40, 40);
 
 
-        }
-        else if (player.life == 2){
-            image(playerLife, 550, 10,40, 40);
+        } else if (player.life == 2) {
+            image(playerLife, 550, 10, 40, 40);
             image(playerLife, 600, 10, 40, 40);
-        }
-        else if (player.life == 1){
-            image(playerLife, 550, 10,40, 40);
+        } else if (player.life == 1) {
+            image(playerLife, 550, 10, 40, 40);
         }
 
     }
-
-
 
 
     @Override
@@ -180,7 +177,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
                     break;
                 case KeyEvent.VK_SPACE:
                     GalaxyShooter.playerShoot();
-                        break;
+                    break;
 
             }
 
@@ -189,7 +186,6 @@ public class Client extends PApplet implements IGalaxyShooterView {
         }
 
     }
-
 
 
 }

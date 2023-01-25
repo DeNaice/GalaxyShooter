@@ -1,15 +1,19 @@
 package Model;
 
+/**
+ * Hier ist der EnemySpawner
+ * Dieser ist ein Thread
+ */
 public class EnemySpawner extends Thread {
 
 
-    private GalaxyShooter galaxyShooter;
-
     public EnemySpawner(GalaxyShooter galaxyShooter) {
-        this.galaxyShooter = galaxyShooter;
 
     }
 
+    /**
+     * Wenn der Thread läuft soll er einen Gegner spawnen und dann mit sleep eine Zeit von 0s bis 10s warten bevor er erneut einen Gegner spawnt
+     */
     @Override
     public void run() {
         while (true) {

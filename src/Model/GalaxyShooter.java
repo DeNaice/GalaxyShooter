@@ -5,17 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
-import Controller.IGalaxyShooterView;
-import View.Server;
-import processing.core.PApplet;
 import processing.data.JSONObject;
 
 import static processing.core.PApplet.dist;
 
 
-// Für die Funktion dist
+/**
+ * Model meines GalaxyShooters
+ */
 public class GalaxyShooter {
 
     private static Player player;
@@ -37,7 +35,13 @@ public class GalaxyShooter {
 
     int width, height;
 
-
+    /**
+     * Erstellt eine Instanz mit gegebener Größe
+     * Spieler und ein EnemySpawner werden zum Start des Spiels instanziiert
+     *
+     * @param width  Breite des Spielfeldes
+     * @param height Höhe des Spielfeldes
+     */
     public GalaxyShooter(int width, int height) {
 
         this.width = width;
@@ -51,18 +55,26 @@ public class GalaxyShooter {
 
     }
 
-
+    /**
+     * Bewegt den Spieler nach Links, indem seine x - Koordinate weiter links gesetzt wird
+     */
     public static void movePlayerLeft() {
 
         player.x = player.x - 10;
 
     }
 
+    /**
+     * Bewegt den Spieler nach Links, indem seine x - Koordinate weiter links gesetzt wird
+     */
     public static void movePlayerRight() {
         player.x = player.x + 10;
     }
 
-
+    /**
+     * Erstellt Gegner und fügt sie der ArrayList enemies dazu
+     * randomX -> Gegner wird zufällig an der x Ackse verteilt
+     */
     public static void spawnEnemy() {
 
         int randomX = (int) (Math.random() * 700);
@@ -73,6 +85,9 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Fügt der Projektil Arrayliste ein Projektil hinzu und gibt diesem die Koordinaten, wo der Spieler sich beim Abschuss befand
+     */
     public static void playerShoot() {
 
 
@@ -80,6 +95,9 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * moveEnemy interiert durch jeden Gegner der gesetzt wurde und bewegt sie anhand der y-Achse damit sie sich auf den Spieler zubewegen
+     */
 
     public void moveEnemy() {
 
@@ -90,6 +108,9 @@ public class GalaxyShooter {
         }
     }
 
+    /**
+     * Iteriert durch jedes Projektil in projectiles und bewegt sie anhand der y-Achse damit sie sich auf den Gegner zubewegen
+     */
 
     public void moveProjectile() {
 
@@ -100,17 +121,28 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Löschen der Projektile durch hinzufügen in einer neuen Liste wirklich gelöscht wird erst in refresh
+     */
     public void deleteProjectile(Projectile projectile) {
 
         newProjectiles.add(projectile);
 
     }
 
+    /**
+     * Löschen der Gegner durch hinzufügen in eiener neuen Liste wirklich gelöscht wird erst in refresh
+     */
     public void deleteEnemy(Enemy enemy) {
 
         newEnemies.add(enemy);
     }
 
+    /**
+     * Für jeden Gegner wird durch jedes Projektil, dass existiert iteriert und anhand der Funktion dist die von Processing gegeben ist wird geschaut ob sie nah aneinander sind
+     * sollte dies der Fall sein wird enemyHit mit dem Gegner und dem Projektil die sich nahe sind als Parameter aufgerufen
+     * Gegen Ende werden mit refresh sowohl Enemy als auch Projektil Arraylisten aktualisiert, da in den Forschleifen diese nicht gelöscht werden können
+     */
     public void checkDestroy() {
         for (Enemy enemy : enemies) {
 
@@ -131,7 +163,11 @@ public class GalaxyShooter {
 
     }
 
-
+    /**
+     * Iteriert über jeden Gegner und schaut ob er dem Spieler zu nahe kommt
+     * Sollte dies der Fall sein wird der Gegner gelöscht durch deleteEnemy und refresh
+     * Darauf wird player.getDamage aufgerufen die das Leben des Spielers um 1 reduziert
+     */
     public void damagePlayer() {
 
         for (Enemy enemy : enemies) {
@@ -150,18 +186,27 @@ public class GalaxyShooter {
 
     }
 
-
+    /**
+     * aus Arraylist enemies werden alle Enemy enemy gelöscht, die in der neuen Liste newEnemies zusammengekommen sind
+     */
     public void refreshEnemyList() {
 
         enemies.removeAll(newEnemies);
 
     }
 
+    /**
+     * aus Arraylist projectiles werden alle Projectile projectile gelöscht, die in der neuen Liste newProjectiles vorhanden sind
+     */
+
     public void refreshProjectileList() {
 
         projectiles.removeAll(newProjectiles);
     }
 
+    /**
+     * Wenn Gegner getroffen wurde wird dieser und das Projektil gelöscht und durch addScore wird der Score um 50 addiert
+     */
     public void enemyHit(Enemy enemy, Projectile projectile) {
 
         deleteEnemy(enemy);
@@ -170,6 +215,10 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Score wird um 50 addiert
+     */
+
     public void addScore() {
 
         score = score + 50;
@@ -177,11 +226,17 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Gibt den Score aus
+     */
     public int getScore() {
 
         return score;
     }
 
+    /**
+     * Boolean der true wird, wenn der Spieler tot ist ansonsten gibt er false aus
+     */
     public boolean isPlayerDead() {
         if (player.life == 0) {
 
@@ -189,6 +244,9 @@ public class GalaxyShooter {
         } else return false;
     }
 
+    /**
+     *
+     */
     public void setDifficulty() throws InterruptedException {
 
 
@@ -202,6 +260,9 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Sendet den Score
+     */
 
     public int sendScore() {
 
@@ -209,6 +270,10 @@ public class GalaxyShooter {
 
 
     }
+
+    /**
+     * Checkt ob sich der SPieler im Fenster befindet wenn nicht wird er auf die andere Seite bewegt
+     */
 
     public static void checkPlayerBorder() {
 
@@ -220,7 +285,9 @@ public class GalaxyShooter {
 
     }
 
-
+    /**
+     * Checkt für jeden Gegner ob dieser out of Border geht, sollte dies der Fall sein werden sie gelöscht
+     */
     public void enemyBorder() {
 
         for (Enemy enemy : enemies) {
@@ -236,6 +303,9 @@ public class GalaxyShooter {
         refreshEnemyList();
     }
 
+    /**
+     * Checkt für jedes Projektil ob dieses outofBorder geht. Sollte dies der Fall sein werden sie gelöscht.
+     */
     public void projectileBorder() {
 
         for (Projectile projectile : projectiles) {
@@ -266,14 +336,23 @@ public class GalaxyShooter {
 
     }
 
+    /**
+     * Gibt Spieler zurück
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gibt die ArrayList enemies zurück
+     */
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Gibt Arraylist projectiles zurück
+     */
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;
     }

@@ -5,6 +5,9 @@ import Model.GalaxyShooter;
 import View.Server;
 import processing.core.PApplet;
 
+/**
+ * Der Controller des GalaxyShooters
+ */
 public class GalaxyShooterController implements IGalaxyShooterController {
 
 
@@ -12,26 +15,29 @@ public class GalaxyShooterController implements IGalaxyShooterController {
     private IGalaxyShooterView view;
     private GameState state;
 
-    private Server server;
 
-
-
-
+    /**
+     *
+     */
 
     public GalaxyShooterController(IGalaxyShooterView view, int width, int height) {
 
 
         //TODO noch in Titlescreen umwandeln
 
-        this.state = GameState.GAME ;
+        this.state = GameState.GAME;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
 
 
-
     }
 
-
+    /**
+     * Regelt die Verschiedenen States des Spiels
+     * TitleScreen -> Bevor da Spiel losgeht
+     * Game ist während des Spiels, dass auch die gameloop und die drawGame methode beinhält
+     * End_Screen -> Sollte der Spieler sterben wird er an den EndScreen weitergegeben
+     */
     @Override
     public void nextFrame() {
         switch (state) {
@@ -39,7 +45,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
                 view.drawTitleScreen();
                 //if () {
                 //    state = GameState.GAME;
-               // }
+                // }
             }
             case GAME -> {
                 gameLoop();
@@ -54,7 +60,10 @@ public class GalaxyShooterController implements IGalaxyShooterController {
         }
     }
 
-    public void gameLoop(){
+    /**
+     *Hier befindet sich die Game Loop die in case Game stattfindet ausgelagert zur Übersichtlichkeit
+     */
+    public void gameLoop() {
 
         model.moveEnemy();
         model.moveProjectile();
@@ -66,8 +75,6 @@ public class GalaxyShooterController implements IGalaxyShooterController {
             view.sendScore(model.sendScore());
             this.state = GameState.END_SCREEN;
         }
-
-
 
 
     }

@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-
 public class Server {
 
     public Socket socket = null;
@@ -32,8 +31,6 @@ public class Server {
         this.galaxyShooter = galaxyShooter;
 
         new Server(galaxyShooter).setup();
-
-
 
 
     }
