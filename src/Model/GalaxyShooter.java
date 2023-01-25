@@ -1,20 +1,27 @@
 package Model;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
 import Controller.IGalaxyShooterView;
+import View.Server;
 import processing.core.PApplet;
+import processing.data.JSONObject;
+
+import static processing.core.PApplet.dist;
 
 
-
-
-public class GalaxyShooter extends PApplet {
+// Für die Funktion dist
+public class GalaxyShooter {
 
     private static Player player;
-    IGalaxyShooterController controller;
 
+    private FileWriter fileWriter;
+    private FileReader fileReader;
 
     private static ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Enemy> newEnemies = new ArrayList<>();
@@ -22,26 +29,24 @@ public class GalaxyShooter extends PApplet {
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
     private static ArrayList<Projectile> newProjectiles = new ArrayList<>();
 
+    private IGalaxyShooterController controller;
+
+
     private int score = 0;
 
 
     int width, height;
-    int velocity = 2;
 
 
     public GalaxyShooter(int width, int height) {
 
         this.width = width;
         this.height = height;
+        //this.controller = new GalaxyShooterController(this, 720, 720);
 
 
         player = new Player(width / 2, 630, "files/Player.png");
-        new EnemySpawner("spawner", this).start();
-
-
-
-
-
+        new EnemySpawner(this).start();
 
 
     }
@@ -57,23 +62,21 @@ public class GalaxyShooter extends PApplet {
         player.x = player.x + 10;
     }
 
-    public static void checkPlayerBorder() {
-
-        if (player.x <= 10) {
-            player.x = 715;
-        } else if (player.x >= 720) {
-            player.x = 5;
-        }
-
-    }
 
     public static void spawnEnemy() {
 
-        int randomX = (int)(Math.random() * 700);
+        int randomX = (int) (Math.random() * 700);
 
 
-        enemies.add(new Enemy(100, 100));
+        enemies.add(new Enemy(randomX, 100));
         System.out.println("Enemy wird gespawnt" + enemies);
+
+    }
+
+    public static void playerShoot() {
+
+
+        projectiles.add(new Projectile(player.x, player.y, "files/Projectile.png"));
 
     }
 
@@ -83,29 +86,10 @@ public class GalaxyShooter extends PApplet {
         for (Enemy enemy : enemies) {
 
 
-            enemy.y = enemy.y + 1;
+            enemy.y = enemy.y + 2;
         }
     }
 
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
-    }
-
-    public ArrayList<Projectile> getProjectiles() {
-        return projectiles;
-    }
-
-    public static void playerShoot() {
-
-
-        projectiles.add(new Projectile(player.x, player.y, "files/Projectile.png"));
-
-    }
 
     public void moveProjectile() {
 
@@ -139,7 +123,6 @@ public class GalaxyShooter extends PApplet {
                     enemyHit(enemy, projectile);
 
 
-
                 }
             }
         }
@@ -167,20 +150,6 @@ public class GalaxyShooter extends PApplet {
 
     }
 
-    public void projectileBorder() {
-
-        for (Projectile projectile : projectiles) {
-
-            if (projectile.y <= 0 || projectile.y >= 720) {
-
-                deleteProjectile(projectile);
-                System.out.println(projectile + " gelöscht");
-
-            }
-
-        }
-        refreshProjectileList();
-    }
 
     public void refreshEnemyList() {
 
@@ -220,12 +189,12 @@ public class GalaxyShooter extends PApplet {
         } else return false;
     }
 
-    public void setDifficulty() {
+    public void setDifficulty() throws InterruptedException {
 
 
-        if (score >= 500){
+        if (score > 500) {
 
-            EnemySpawner spawner = new EnemySpawner("Spawner2",this);
+            EnemySpawner spawner = new EnemySpawner(this);
             spawner.run();
 
 
@@ -234,13 +203,81 @@ public class GalaxyShooter extends PApplet {
     }
 
 
-
-
     public int sendScore() {
 
         return score;
 
 
     }
+
+    public static void checkPlayerBorder() {
+
+        if (player.x <= 10) {
+            player.x = 715;
+        } else if (player.x >= 720) {
+            player.x = 5;
+        }
+
+    }
+
+
+    public void enemyBorder() {
+
+        for (Enemy enemy : enemies) {
+
+            if (enemy.y <= 0 || enemy.y >= 720) {
+
+                deleteEnemy(enemy);
+                System.out.println(enemy + " gelöscht");
+
+            }
+
+        }
+        refreshEnemyList();
+    }
+
+    public void projectileBorder() {
+
+        for (Projectile projectile : projectiles) {
+
+            if (projectile.y <= 0 || projectile.y >= 720) {
+
+                deleteProjectile(projectile);
+                System.out.println(projectile + " gelöscht");
+
+            }
+
+        }
+        refreshProjectileList();
+    }
+
+    public void writeHighscore() throws IOException {
+
+        JSONObject obj = new JSONObject();
+        obj.put("Highscore", score);
+
+        fileWriter = new FileWriter("src/View/HighScore.txt");
+
+
+    }
+
+    public void readHighscore() {
+
+
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+
 }
 

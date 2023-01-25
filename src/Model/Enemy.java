@@ -21,11 +21,6 @@ public class Enemy {
 
 
     }
-
-
-    public boolean isAlive() {
-        return life > 0;
-    }
-
-
 }
+
+

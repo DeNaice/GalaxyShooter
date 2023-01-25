@@ -26,7 +26,6 @@ public class Player {
     }
 
 
-
     public void getDamage() {
 
         this.life = life - 1;

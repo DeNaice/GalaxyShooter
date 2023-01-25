@@ -9,7 +9,6 @@ public class Projectile {
 
     public int size;
 
-    public int speed = 1;
 
     public Projectile(int x, int y, String picture) {
 

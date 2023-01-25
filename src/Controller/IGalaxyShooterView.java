@@ -11,9 +11,6 @@ public interface IGalaxyShooterView {
     public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, int score);
 
 
-
-
-
     public void drawTitleScreen();
 
     void drawScore(int score);

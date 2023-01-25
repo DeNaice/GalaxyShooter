@@ -5,7 +5,7 @@ import Model.GalaxyShooter;
 import View.Server;
 import processing.core.PApplet;
 
-public class GalaxyShooterController extends PApplet implements IGalaxyShooterController {
+public class GalaxyShooterController implements IGalaxyShooterController {
 
 
     private GalaxyShooter model;
@@ -37,9 +37,9 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         switch (state) {
             case TITLE_SCREEN -> {
                 view.drawTitleScreen();
-                if (keyPressed) {
-                    state = GameState.GAME;
-                }
+                //if () {
+                //    state = GameState.GAME;
+               // }
             }
             case GAME -> {
                 gameLoop();
@@ -60,6 +60,7 @@ public class GalaxyShooterController extends PApplet implements IGalaxyShooterCo
         model.moveProjectile();
         model.damagePlayer();
         model.projectileBorder();
+        model.enemyBorder();
         model.checkDestroy();
         if (model.isPlayerDead()) {
             view.sendScore(model.sendScore());

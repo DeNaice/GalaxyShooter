@@ -1,19 +1,15 @@
 package View;
 
-import Controller.GalaxyShooterController;
 import Controller.IGalaxyShooterController;
-import Controller.IGalaxyShooterView;
-import processing.core.PApplet;
+import Model.GalaxyShooter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class Server{
+
+public class Server {
 
     public Socket socket = null;
     public ServerSocket server = null;
@@ -21,24 +17,21 @@ public class Server{
 
     public PrintWriter writer = null;
 
-    IGalaxyShooterController controller;
+    private GalaxyShooter galaxyShooter;
 
 
     public static void main(String args[]) {
 
-        new Server().setup();
+
         System.out.println("Server is running");
-
-
-
-
-
 
 
     }
 
-    public Server() {
+    public Server(GalaxyShooter galaxyShooter) {
+        this.galaxyShooter = galaxyShooter;
 
+        new Server(galaxyShooter).setup();
 
 
 
@@ -51,22 +44,20 @@ public class Server{
         try {
             startServer();
 
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-
-
-    public void startServer() throws IOException{
+    public void startServer() throws IOException {
 
         int port = 8080;
         server = new ServerSocket(port);
         socket = server.accept();
         String line = "";
         System.out.println("Server gestartet");
-        while (!line.equals("CONNECTED")){
+        while (!line.equals("CONNECTED")) {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             line = reader.readLine();
             System.out.println("RECEIVED" + line);
@@ -76,10 +67,6 @@ public class Server{
 
 
     }
-
-
-
-
 
 
 }
