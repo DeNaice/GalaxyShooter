@@ -323,10 +323,10 @@ public class GalaxyShooter {
          */
 
         JSONObject obj = new JSONObject();
-        int score = readHighscore();
+
         obj.put("Highscore", getScore());
 
-        if (getScore() > score) {
+      //  if (getScore() > score) {
 
             try {
                 fileWriter = new FileWriter("src/View/HighScore.txt");
@@ -336,7 +336,7 @@ public class GalaxyShooter {
                 throw new RuntimeException(e);
             }
 
-        }
+      //  }
 
 
 
@@ -346,8 +346,10 @@ public class GalaxyShooter {
 
         JSONParser parser = new JSONParser();
         try{
-            Object obj = parser.parse(new FileReader("src/View/HighScore.txt"));
+            Object obj = (String)parser.parse(new FileReader("src/View/HighScore.txt"));
             JSONObject jsonObject = (JSONObject) obj;
+
+
 
             int highscore = (int) jsonObject.get("Highscore");
 

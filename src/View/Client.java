@@ -201,6 +201,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
                     GalaxyShooter.movePlayerRight();
                     break;
                 case KeyEvent.VK_SPACE:
+                    controller.updateState();
 
 
                     GalaxyShooter.playerShoot();

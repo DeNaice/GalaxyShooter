@@ -17,7 +17,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
 
     /**
-     *
+     * Contoller wird erstellt der über view model und Gamestate zugreifen kann
      */
 
     public GalaxyShooterController(IGalaxyShooterView view, int width, int height) {
@@ -25,7 +25,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
         //TODO noch in Titlescreen umwandeln
 
-        this.state = GameState.END_SCREEN;
+        this.state = GameState.TITLE_SCREEN;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
 
@@ -48,6 +48,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
                 view.drawTitleScreen();
 
+
             }
             case GAME -> {
                 gameLoop();
@@ -58,14 +59,34 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
 
                 view.drawEndScreen();
-                view.drawHighscore(model.getScore(),300);
+                view.drawHighscore(model.getScore(), 300);
 
             }
         }
     }
 
     /**
-     *Hier befindet sich die Game Loop die in case Game stattfindet ausgelagert zur Übersichtlichkeit
+     * Bei LeerTaste wird geprüft ob man sich in den States TitleSreen oder EndScreen befindet sollte dies
+     * der fall sein kommt man weiter sodass ein guter Spielfluss entsteht
+     */
+    @Override
+    public void updateState() {
+
+        if (state == GameState.TITLE_SCREEN){
+
+            state = GameState.GAME;
+
+        }
+        else if (state == GameState.END_SCREEN) {
+
+            state = GameState.TITLE_SCREEN;
+
+        }
+
+    }
+
+    /**
+     *Hier befindet sich die Game-Loop die in case Game stattfindet ausgelagert zur Übersichtlichkeit
      */
     public void gameLoop() throws FileNotFoundException {
 

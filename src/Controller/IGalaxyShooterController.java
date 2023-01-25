@@ -13,4 +13,5 @@ public interface IGalaxyShooterController {
     void nextFrame() throws IOException;
 
 
+    void updateState();
 }
