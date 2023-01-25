@@ -18,6 +18,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+/**
+ * View des Spiels GalaxyShooter
+ * hier wird das Visuelle des Spiels gehandelt
+ */
 
 public class Client extends PApplet implements IGalaxyShooterView {
 
@@ -47,9 +51,14 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     public void settings() {
 
-        pixelDensity(2);
     }
 
+    /**
+     *In Setup wird ein Kontroller in dieser Instanz erstellt
+     * Daruber werden alle benötigsten Bilder geladen
+     * playerImage, ProjektilImage und playerLife wurden selbst mit der Pixeldesign Software Aseprite designt
+     * titleScreen und endScreen würden über www.canva.com designt
+     */
     public void setup() {
         this.controller = new GalaxyShooterController(this, width, height);
 
@@ -71,7 +80,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
         */
     }
 
-
+    /**
+     *Hier wird jeden Frame das Spiel gezeichnet
+     * jeden Frame wird der Spieler, das Leben und der Score dargestellt
+     * Für Gegner und Projektile werden über die Listen enemies und projectiles iteriert und jeder Eintrag wird mit image gezeichnet
+     */
     @Override
     public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, int score) {
 
@@ -79,6 +92,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
         background(150, 145, 135);
         image(playerImage, player.x - 50, player.y, player.size, player.size);
         drawScore(score);
+        drawPlayerLife(player);
 
         for (var e : enemies) {
             image(enemyImage, e.x - 25, e.y, e.size, e.size);
@@ -90,7 +104,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
             image(projectileImage, e.x - 10, e.y, e.size, e.size);
         }
 
-        drawPlayerLife(player);
+
     }
 
 
@@ -98,7 +112,9 @@ public class Client extends PApplet implements IGalaxyShooterView {
         controller.nextFrame();
     }
 
-
+    /**
+     * TitleScreen wird gezeichnet und auf den ganzen Bildschirm gezeigt
+     */
     @Override
     public void drawTitleScreen() {
         image(titleScreen, 0, 0, width, height);
@@ -106,7 +122,10 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
-
+    /**
+     * drawScore zeigt jeden Frame den Score an
+     * @param score wird übergeben und mithilfe von text dargestellt
+     */
     @Override
     public void drawScore(int score) {
 
@@ -116,6 +135,12 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
+    /**
+     * drawPlayerLife ist für die Anzeige des Lebens zust#ndig
+     * @param player wird übergeben, damit man an sein Leben kommt
+     * je nach Anzahl der Leben werden 3, 2 oder nur 1 Herz dargestellt
+     * zu 0 Herzen kommen wir nicht da da direkt zum GameState EndScreen gewechselt wird
+     */
     public void drawPlayerLife(Player player) {
 
         if (player.life == 3) {
@@ -133,7 +158,9 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
-
+    /**
+     * Endscreen wird gezeichnet
+     */
     @Override
     public void drawEndScreen() {
 
@@ -145,6 +172,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     public void sendScore(int score) {
 
     }
+
 
     public void connectClient() throws IOException {
 
@@ -160,6 +188,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
+    /**
+     * Da Client PApplet extended hat man hier zugriff auf die Methode keyPressed die checkt ob eine Taste gedrückt wird
+     * sollte dies der fall sein wird in switch case geschaut ob es a, d , oder Space ist.
+     * Diese sind zur Bedienung des Spiels benötigt
+     */
     public void keyPressed() {
 
 
