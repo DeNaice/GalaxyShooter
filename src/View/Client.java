@@ -10,11 +10,9 @@ import Model.Projectile;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -70,14 +68,6 @@ public class Client extends PApplet implements IGalaxyShooterView {
         endScreen = loadImage("files/EndScreen.png");
         playerLife = loadImage("files/Heart.png");
 
-
-        /*
-        try{
-            connectClient();
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
-        */
     }
 
     /**
@@ -86,6 +76,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
      * Für Gegner und Projektile werden über die Listen enemies und projectiles iteriert und jeder Eintrag wird mit image gezeichnet
      */
     @Override
+    //statt player 2 integers mit x und y
     public void drawGame(Player player, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, int score) {
 
         noStroke();
@@ -109,7 +100,11 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
 
     public void draw() {
-        controller.nextFrame();
+        try {
+            controller.nextFrame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -118,7 +113,7 @@ public class Client extends PApplet implements IGalaxyShooterView {
     @Override
     public void drawTitleScreen() {
         image(titleScreen, 0, 0, width, height);
-        //  GalaxyShooter.checkStartGame();
+
 
     }
 
@@ -168,29 +163,26 @@ public class Client extends PApplet implements IGalaxyShooterView {
 
     }
 
+
     @Override
-    public void sendScore(int score) {
+    public void drawHighscore(int yourScore, int readHighscore) {
+
+        fill(0, 0, 0);
+        textSize(30);
+        text("Dein Score: " + yourScore, width/2 -100, height/2);
+
+        text("Hightscore: " + readHighscore, width/2 -100 , height/2 + 50);
+
+
+
+
 
     }
 
-
-    public void connectClient() throws IOException {
-
-        String ip = "localhost";
-        int port = 8080;
-        socket = new Socket(ip, port);
-        writer = new PrintWriter(socket.getOutputStream(), true);
-        writer.println("CONNECTED");
-        System.out.println("CONNECTED");
-        reader = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
-
-
-    }
 
     /**
      * Da Client PApplet extended hat man hier zugriff auf die Methode keyPressed die checkt ob eine Taste gedrückt wird
-     * sollte dies der fall sein wird in switch case geschaut ob es a, d , oder Space ist.
+     * sollte dies der Fall sein wird in switch case geschaut ob es a, d , oder Space ist.
      * Diese sind zur Bedienung des Spiels benötigt
      */
     public void keyPressed() {
@@ -209,6 +201,8 @@ public class Client extends PApplet implements IGalaxyShooterView {
                     GalaxyShooter.movePlayerRight();
                     break;
                 case KeyEvent.VK_SPACE:
+
+
                     GalaxyShooter.playerShoot();
                     break;
 

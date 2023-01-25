@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.EnemySpawner;
 import Model.GalaxyShooter;
-import View.Server;
-import processing.core.PApplet;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Der Controller des GalaxyShooters
@@ -25,7 +25,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
         //TODO noch in Titlescreen umwandeln
 
-        this.state = GameState.GAME;
+        this.state = GameState.END_SCREEN;
         this.view = view;
         this.model = new GalaxyShooter(width, height);
 
@@ -34,18 +34,20 @@ public class GalaxyShooterController implements IGalaxyShooterController {
 
     /**
      * Regelt die Verschiedenen States des Spiels
-     * TitleScreen -> Bevor da Spiel losgeht
+     * TitleScreen → Bevor da Spiel losgeht
      * Game ist während des Spiels, dass auch die gameloop und die drawGame methode beinhält
-     * End_Screen -> Sollte der Spieler sterben wird er an den EndScreen weitergegeben
+     * End_Screen → Sollte der Spieler sterben wird er an den EndScreen weitergegeben
      */
     @Override
-    public void nextFrame() {
+    public void nextFrame() throws IOException {
+
+
         switch (state) {
             case TITLE_SCREEN -> {
+
+
                 view.drawTitleScreen();
-                //if () {
-                //    state = GameState.GAME;
-                // }
+
             }
             case GAME -> {
                 gameLoop();
@@ -54,7 +56,9 @@ public class GalaxyShooterController implements IGalaxyShooterController {
             case END_SCREEN -> {
 
 
+
                 view.drawEndScreen();
+                view.drawHighscore(model.getScore(),300);
 
             }
         }
@@ -63,7 +67,7 @@ public class GalaxyShooterController implements IGalaxyShooterController {
     /**
      *Hier befindet sich die Game Loop die in case Game stattfindet ausgelagert zur Übersichtlichkeit
      */
-    public void gameLoop() {
+    public void gameLoop() throws FileNotFoundException {
 
         model.moveEnemy();
         model.moveProjectile();
@@ -72,7 +76,9 @@ public class GalaxyShooterController implements IGalaxyShooterController {
         model.enemyBorder();
         model.checkDestroy();
         if (model.isPlayerDead()) {
-            view.sendScore(model.sendScore());
+            model.writeHighscore();
+           // view.drawHighscore(model.readHighscore());
+
             this.state = GameState.END_SCREEN;
         }
 

@@ -1,12 +1,14 @@
 package Model;
 
+import Controller.IGalaxyShooterController;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import processing.data.JSONObject;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import Controller.IGalaxyShooterController;
-import processing.data.JSONObject;
 
 import static processing.core.PApplet.dist;
 
@@ -91,9 +93,11 @@ public class GalaxyShooter {
     public static void playerShoot() {
 
 
-        projectiles.add(new Projectile(player.x, player.y, "files/Projectile.png"));
+        projectiles.add(new Projectile(player.x, player.y));
 
     }
+
+
 
     /**
      * moveEnemy interiert durch jeden Gegner der gesetzt wurde und bewegt sie anhand der y-Achse damit sie sich auf den Spieler zubewegen
@@ -260,16 +264,6 @@ public class GalaxyShooter {
 
     }
 
-    /**
-     * Sendet den Score
-     */
-
-    public int sendScore() {
-
-        return score;
-
-
-    }
 
     /**
      * Checkt ob sich der SPieler im Fenster befindet wenn nicht wird er auf die andere Seite bewegt
@@ -321,20 +315,53 @@ public class GalaxyShooter {
         refreshProjectileList();
     }
 
-    public void writeHighscore() throws IOException {
+
+
+    public void writeHighscore(){
+        /**
+         * score wird mit getScore geholt und durch einen FileWriter in die Datei HighScore.txt permanent eingetragen. WIrd nur Verändert wenn der Score dieser Runde höher als der Highscore ist
+         */
 
         JSONObject obj = new JSONObject();
-        obj.put("Highscore", score);
+        int score = readHighscore();
+        obj.put("Highscore", getScore());
 
-        fileWriter = new FileWriter("src/View/HighScore.txt");
+        if (getScore() > score) {
+
+            try {
+                fileWriter = new FileWriter("src/View/HighScore.txt");
+                fileWriter.write(obj.toString());
+                fileWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
 
 
     }
 
-    public void readHighscore() {
+    public int readHighscore(){
+
+        JSONParser parser = new JSONParser();
+        try{
+            Object obj = parser.parse(new FileReader("src/View/HighScore.txt"));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            int highscore = (int) jsonObject.get("Highscore");
+
+            return highscore;
+
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
+
+
+
 
     /**
      * Gibt Spieler zurück
@@ -355,6 +382,13 @@ public class GalaxyShooter {
      */
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+
+    @Override
+    public String toString() {
+
+      return ("Spielerx = "+ player.x + "Spielery = " + player.y + "SpielerLeben = " + player.life + "Anzahl von Gegnern = " + enemies.size() + "Score = " + score);
     }
 
 

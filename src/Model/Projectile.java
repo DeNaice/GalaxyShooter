@@ -23,11 +23,11 @@ public class Projectile {
     /**
      *Konstruktor des Projektils hier werden die Projektile erstellt
      */
-    public Projectile(int x, int y, String picture) {
+    public Projectile(int x, int y) {
 
         this.x = x;
         this.y = y;
-        this.picture = picture;
+        this.picture = "files/Projectile.png";
         this.size = 20;
 
     }

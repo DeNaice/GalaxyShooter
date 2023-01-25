@@ -33,8 +33,8 @@ public interface IGalaxyShooterView {
 
     public void drawEndScreen();
 
-    /**
-     * sendet score
-     */
-    void sendScore(int score);
+
+    void drawHighscore(int yourScore, int readHighscore);
 }
+
+
